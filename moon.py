@@ -1,32 +1,43 @@
 import streamlit as st
 import cv2
 from PIL import Image
-st.write('make a selection')
-options = ['144p','240p','480p','720p','1080p']
-choice = st.selectbox("choose", options)
-if choice=='144p':
-    image = Image.open("144p.png")
-    st.image(image)
-    #st.write('144p')
-if choice=='240p':
-    image = Image.open("240p.png")
-    st.image(image)
-if choice=='480p':
-    image = Image.open("480p.png")
-    st.image(image)
-if choice=='720p':
-    image = Image.open("720p.png")
-    st.image(image)
-if choice=='1080p':
-    cap = cv2.VideoCapture(0)
-    frame_placeholder = st.empty()
-    while cap.isOpened():
-        ret, frame = cap.read()
-        if not ret:
-            st.write('the video capture has ended')
-            break
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        frame_placeholder.image(frame, channels="RGB")
 
-    cap.release()
+def main():
+    st.title("Resolution Selection and Camera Display")
 
+    options = ['144p', '240p', '480p', '720p', '1080p']
+    choice = st.selectbox("Select Resolution", options)
+
+    if choice == '144p':
+        image = Image.open("144p.png")
+        st.image(image, caption='144p Image')
+
+    elif choice == '240p':
+        image = Image.open("240p.png")
+        st.image(image, caption='240p Image')
+
+    elif choice == '480p':
+        image = Image.open("480p.png")
+        st.image(image, caption='480p Image')
+
+    elif choice == '720p' or choice == '1080p':
+        st.write(f"Selecting {choice} for live camera feed...")
+        cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+
+        if not cap.isOpened():
+            st.error("Error: Could not open camera.")
+        else:
+            frame_placeholder = st.empty()
+
+            while cap.isOpened():
+                ret, frame = cap.read()
+                if not ret:
+                    st.error("Error: Failed to capture frame from camera.")
+                    break
+                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                frame_placeholder.image(frame, channels="RGB")
+
+            cap.release()
+
+if __name__ == "__main__":
+    main()
