@@ -3,7 +3,7 @@ import cv2
 from PIL import Image
 
 def main():
-    st.title("Resolution Selection and Camera Display")
+    st.title("Resolution Selection and Camera Display : by ishaan")
 
     options = ['144p', '240p', '480p', '720p', '1080p']
     choice = st.selectbox("Select Resolution", options)
