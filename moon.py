@@ -25,7 +25,7 @@ def main():
         st.image(image)
     elif choice == '1080p':
         #st.write(f"Selecting {choice} for live camera feed...")
-        cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+        cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)
 
         if not cap.isOpened():
             st.error("Error: Could not open camera.")
